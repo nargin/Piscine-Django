@@ -1,0 +1,62 @@
+#!/bin/bash
+# Example: ./urlcutter http://bit.ly/1O72s3U
+# Usage: VERBOSE=1 ./urlcutter <bit.ly URL>
+
+if [ -z "$1" ]; then
+    echo "Usage: ./urlcutter <bit.ly URL>"
+    echo "       VERBOSE=1 ./urlcutter <bit.ly URL> for verbose mode"
+    exit 1
+fi
+
+# -L: follow redirects
+# -s: silent mode
+# -I: fetch headers only
+# grep Location: find the Location header
+# tail -n 1: get the last line
+# cut -d' ' -f2: extract the URL from the Location header
+
+if [ "$VERBOSE" = "1" ]; then
+    echo "Step 1: Starting URL resolution for: $1"
+    echo "Step 2: Checking if URL is reachable..."
+    
+    # Check if URL is reachable
+    if ! curl -s -I -L "$1" > /dev/null 2>&1; then
+        echo "Error: URL is not reachable"
+        exit 1
+    fi
+    
+    echo "Step 3: Following redirects and showing headers:"
+    echo "----------------------------------------"
+    curl -s -I -L "$1" | while read -r line; do
+        if [[ "$line" =~ ^HTTP/ ]]; then
+            echo "Status: $line"
+        elif [[ "$line" =~ ^Location: ]]; then
+            echo "Redirect: $line"
+        elif [[ "$line" =~ ^$ ]]; then
+            echo "----------------------------------------"
+        fi
+    done
+    
+    echo "Step 4: Final URL:"
+    final_url=$(curl -s -I -L "$1" | grep -i "location:" | tail -n 1 | cut -d' ' -f2)
+    if [ -z "$final_url" ]; then
+        echo "No redirects found, original URL is final"
+    else
+        echo "$final_url"
+    fi
+    echo "Step 5: URL resolution complete"
+else
+    # In non-verbose mode, still check if URL is reachable
+    if ! curl -s -I -L "$1" > /dev/null 2>&1; then
+        echo "Error: URL is not reachable"
+        exit 1
+    fi
+    
+    final_url=$(curl -s -I -L "$1" | grep -i "location:" | tail -n 1 | cut -d' ' -f2)
+    if [ -z "$final_url" ]; then
+        echo "$1"
+    else
+        echo "$final_url"
+    fi
+fi
+

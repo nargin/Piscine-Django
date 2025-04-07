@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+        .radio-group label {
+            display: inline;
+            margin-right: 15px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form id="contactForm">
+        <div class="form-group">
+            <label for="firstname">Firstname:</label>
+            <input type="text" id="firstname" name="firstname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="student" name="student">
+                Student at 42?
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Gender:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" id="gender_male" name="gender" value="Male" required>
+                    Male
+                </label>
+                <label>
+                    <input type="radio" id="gender_female" name="gender" value="Female">
+                    Female
+                </label>
+                <label>
+                    <input type="radio" id="gender_other" name="gender" value="Other">
+                    Other
+                </label>
+            </div>
+        </div>
+
+        <button type="button" onclick="displayFormContents();">Submit</button>
+    </form>
+
+    <script src="popup.js"></script>
+</body>
+</html>
