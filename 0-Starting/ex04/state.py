@@ -8,15 +8,20 @@ states = {
 }
 
 capital_cities = {
-    "OR": "Salem",
     "AL": "Montgomery",
-    "NJ": "Trenton",
-    "CO": "Denver"
+    "OR": "Salem",
+    "CO": "Denver",
+    "NJ": "Trenton"
 }
 
 def state(capital):
-    if capital in capital_cities:
-        print(states[capital_cities[capital]])
+    if capital in capital_cities.values():
+        combined_dict = {
+            capital_cities[state_abbr]: state_name
+                for state_name, state_abbr in states.items()
+                    if state_abbr in capital_cities
+        }
+        print(combined_dict[capital])
     else:
         print("Unknown capital city")
 
