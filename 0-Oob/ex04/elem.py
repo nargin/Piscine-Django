@@ -13,14 +13,19 @@ class Text(str):
         """
         Do you really need a comment to understand this method?..
         """
-        # Use html.escape to safely handle special characters in text content
-        return html.escape(super().__str__()).replace('\n', '\n<br />\n')
+        pure = super().__str__()
+        prb = ["&lt;", "&gt;", "&quot;"]
+        for idx, char in enumerate('<>"'):
+            pure = pure.replace(char, prb[idx])
+        
+        return pure.replace('\n', '\n<br />\n')
 
 
 class Elem:
     """
     Elem will permit us to represent our HTML elements.
     """
+    # Define the ValidationError exception class
     ValidationError = Exception
 
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):
@@ -29,12 +34,12 @@ class Elem:
 
         Obviously.
         """
+        # Initialize attributes
         self.tag = tag
         self.attr = attr
         self.content = []
         self.tag_type = tag_type
-        self.depth = 0
-        self.indentation: str = '  '
+
         if content:
             self.add_content(content)
 
@@ -45,15 +50,12 @@ class Elem:
         Make sure it renders everything (tag, attributes, embedded
         elements...).
         """
-        indent = self.indentation * self.depth
         if self.tag_type == 'double':
-            result = indent + f"<{self.tag}{self.__make_attr()}>"
-            content_str = self.__make_content()
-            if content_str:
-                result += '\n' + content_str
-            result += '\n' + indent + f"</{self.tag}>"
+            result = f"<{self.tag}{self.__make_attr()}>"
+            result += self.__make_content()
+            result += f"</{self.tag}>"
         elif self.tag_type == 'simple':
-            result = indent + f"<{self.tag}{self.__make_attr()} />"
+            result = f"<{self.tag}{self.__make_attr()} />"
         return result
 
     def __make_attr(self):
@@ -69,44 +71,22 @@ class Elem:
         """
         Here is a method to render the content, including embedded elements.
         """
-        if not self.content:
+
+        if len(self.content) == 0:
             return ''
-
-        result_parts = []
-        child_indent = self.indentation * (self.depth + 1)
+        result = '\n'
         for elem in self.content:
-            if isinstance(elem, Text):
-                result_parts.append(child_indent + str(elem))
-            elif isinstance(elem, Elem):
-                result_parts.append(elem.__str__())
-
-        return '\n'.join(result_parts)
-
-    def _update_depth(self, new_depth):
-        """Recursively update the depth of this element and its children."""
-        self.depth = new_depth
-        for item in self.content:
-            if isinstance(item, Elem):
-                # Recursively call for child Elem instances
-                item._update_depth(new_depth + 1)
+            elem = str(elem).replace("\n", "\n  ")
+            result += '  ' + str(elem) + "\n"
+        return result
 
     def add_content(self, content):
         if not Elem.check_type(content):
             raise Elem.ValidationError
-        
-        contents_to_add = []
         if type(content) == list:
-            contents_to_add = content
-        else:
-            contents_to_add = [content]
-
-        for item in contents_to_add:
-            if isinstance(item, Text) and not str(item).strip():
-                continue
-            if isinstance(item, Elem):
-                # Set depth relative to parent AND update descendants recursively
-                item._update_depth(self.depth + 1)
-            self.content.append(item)
+            self.content += [elem for elem in content if elem != Text('')]
+        elif content != Text(''):
+            self.content.append(content)
 
     @staticmethod
     def check_type(content):
@@ -132,13 +112,4 @@ if __name__ == '__main__':
             ])
         ])
     ])
-    # print(html)
-    print(Elem())
-    print(Text(''))
-    print(Text('foo'))
-    print(Text('\n'))
-    print(Text('foo\nbar'))
-    print(Text('<'))
-    print(Text('>'))
-    print(Text('"'))
-    
+    print(html)
