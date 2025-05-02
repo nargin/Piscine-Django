@@ -1,0 +1,27 @@
+body {
+    color: blue;
+}
+
+h1 {
+    color: #104e8b;
+}
+
+h2 {
+    color: #1874cd;
+}
+
+a {
+    color: #4169e1;
+}
+
+code, pre {
+    background-color: #f0f8ff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid #deebf7;
+}
+
+pre {
+    padding: 10px;
+    overflow-x: auto;
+}

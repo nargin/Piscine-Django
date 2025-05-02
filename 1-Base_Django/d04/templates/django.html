@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Ex01 : Django, framework web{% endblock %}
+
+{% block content %}
+<h1>Ex01 : Django, framework web</h1>
+
+<h2>Qu'est-ce que Django ?</h2>
+<p>Django est un framework web open source écrit en Python qui suit le modèle architectural MVC (Modèle-Vue-Contrôleur), ou plus précisément le modèle MVT (Modèle-Vue-Template). Il a été conçu pour permettre un développement web rapide, sécurisé et maintenable.</p>
+
+<h2>Caractéristiques principales</h2>
+<ul>
+    <li><strong>Rapidité de développement</strong> : Django fournit de nombreuses fonctionnalités prêtes à l'emploi, ce qui permet aux développeurs de créer des applications rapidement.</li>
+    <li><strong>Sécurité</strong> : Django inclut de nombreuses protections contre les vulnérabilités courantes du web comme les injections SQL, le cross-site scripting (XSS), le cross-site request forgery (CSRF), etc.</li>
+    <li><strong>Scalabilité</strong> : Django est conçu pour gérer un trafic élevé et peut être facilement mis à l'échelle.</li>
+    <li><strong>Versatilité</strong> : Il peut être utilisé pour créer presque n'importe quel type de site web, des systèmes de gestion de contenu aux réseaux sociaux en passant par les plateformes scientifiques.</li>
+</ul>
+
+<h2>Historique de Django</h2>
+<p>Django a été créé en 2003 par Adrian Holovaty et Simon Willison, alors qu'ils travaillaient pour le journal Lawrence Journal-World dans le Kansas. À l'époque, ils développaient des applications web pour le site d'information du journal et avaient besoin d'un framework qui leur permettrait de créer rapidement des sites web d'actualités.</p>
+
+<p>Le framework a été nommé d'après le guitariste de jazz Django Reinhardt.</p>
+
+<p>En 2005, il a été publié sous licence BSD et rendu open source. La première version officielle, Django 0.90, a été publiée en juillet 2005.</p>
+
+<p>En 2008, la Django Software Foundation (DSF) a été créée pour maintenir et promouvoir le framework. Depuis lors, Django a continué à évoluer avec des mises à jour régulières, intégrant de nouvelles fonctionnalités et améliorations.</p>
+
+<h2>Versions majeures et évolution</h2>
+<ul>
+    <li><strong>Django 1.0</strong> (septembre 2008) : Première version stable</li>
+    <li><strong>Django 1.4</strong> (2012) : Support de timezone et nouvelle application d'administration</li>
+    <li><strong>Django 1.5</strong> (2013) : Support de modèles d'utilisateurs personnalisés</li>
+    <li><strong>Django 1.8</strong> (2015) : LTS (Long Term Support) avec de nombreuses améliorations</li>
+    <li><strong>Django 2.0</strong> (2017) : Support exclusif de Python 3</li>
+    <li><strong>Django 3.0</strong> (2019) : Support de ASGI et améliorations de l'asynchrone</li>
+    <li><strong>Django 4.0</strong> (2021) : Amélioration du support de Redis, nouveau décorateur, support zoneinfo</li>
+    <li><strong>Django 5.0</strong> (2023) : Amélioration de l'asynchrone et fonctionnalités avancées</li>
+</ul>
+
+<h2>Philosophie de Django</h2>
+<p>La philosophie de Django repose sur plusieurs principes clés :</p>
+<ul>
+    <li><strong>DRY (Don't Repeat Yourself)</strong> : Éliminer la duplication en définissant les modèles de données une seule fois.</li>
+    <li><strong>Découplage élevé</strong> : Séparer les différentes parties d'une application pour améliorer la maintenance.</li>
+    <li><strong>Moins de code</strong> : Maximiser la productivité en minimisant la quantité de code à écrire.</li>
+    <li><strong>Explicite plutôt qu'implicite</strong> : Rendre le code clair et lisible.</li>
+</ul>
+
+<p>Aujourd'hui, Django est l'un des frameworks web les plus populaires et est utilisé par de nombreuses entreprises de renom comme Instagram, Pinterest, Mozilla, The Washington Post, et bien d'autres.</p>
+
+{% endblock %}

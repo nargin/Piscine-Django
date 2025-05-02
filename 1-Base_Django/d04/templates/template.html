@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block title %}Ex01 : Moteur de template{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/static/css/style2.css">
+{% endblock %}
+
+{% block content %}
+<h1>Ex01 : Moteur de template</h1>
+
+<p>Django utilise par défaut son propre moteur de templates, qui permet de créer des pages HTML dynamiques en séparant la logique de présentation du code Python. Ce moteur de templates est puissant et flexible, offrant diverses fonctionnalités pour manipuler les données et contrôler le rendu HTML.</p>
+
+<h2>Principes de base du moteur de templates</h2>
+<p>Le moteur de templates de Django permet d'intégrer du contenu dynamique dans des fichiers HTML statiques. Il utilise :</p>
+<ul>
+    <li>Des variables : <code>&#123;&#123; variable &#125;&#125;</code></li>
+    <li>Des balises : <code>&#123;&#37; balise &#37;&#125;</code></li>
+    <li>Des filtres : <code>&#123;&#123; variable|filtre &#125;&#125;</code></li>
+    <li>Des commentaires : <code>&#123;# commentaire #&#125;</code></li>
+</ul>
+
+<h2>Les blocs (&#123;&#37; block &#37;&#125;)</h2>
+<p>Les blocs sont l'un des mécanismes fondamentaux du moteur de templates Django, permettant l'héritage de templates.</p>
+
+<h3>Définition et utilisation</h3>
+<p>Un bloc est défini dans un template avec la syntaxe suivante :</p>
+<pre>
+&#123;&#37; block nom_du_bloc &#37;&#125;
+    Contenu par défaut du bloc
+&#123;&#37; endblock &#37;&#125;
+</pre>
+
+<p>L'héritage de templates fonctionne ainsi :</p>
+<ol>
+    <li>Un template parent (comme <code>base.html</code>) définit la structure globale et des blocs qui peuvent être remplacés</li>
+    <li>Les templates enfants étendent le parent avec <code>&#123;&#37; extends 'parent.html' &#37;&#125;</code></li>
+    <li>Les templates enfants redéfinissent certains blocs pour personnaliser leur contenu</li>
+</ol>
+
+<h3>Exemple d'héritage de templates</h3>
+<p>Template parent (base.html) :</p>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;&#123;&#37; block title &#37;&#125;Titre par défaut&#123;&#37; endblock &#37;&#125;&lt;/title&gt;
+    &#123;&#37; block style &#37;&#125;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &#123;&#37; endblock &#37;&#125;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;Mon site&lt;/header&gt;
+    &lt;main&gt;
+        &#123;&#37; block content &#37;&#125;
+        &lt;p&gt;Contenu par défaut&lt;/p&gt;
+        &#123;&#37; endblock &#37;&#125;
+    &lt;/main&gt;
+    &lt;footer&gt;Copyright 2025&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>Template enfant (page.html) :</p>
+<pre>
+&#123;&#37; extends 'base.html' &#37;&#125;
+
+&#123;&#37; block title &#37;&#125;Ma page spécifique&#123;&#37; endblock &#37;&#125;
+
+&#123;&#37; block content &#37;&#125;
+&lt;h1&gt;Contenu personnalisé&lt;/h1&gt;
+&lt;p&gt;Ceci remplace le contenu par défaut.&lt;/p&gt;
+&#123;&#37; endblock &#37;&#125;
+</pre>
+
+<h2>Les boucles for...in (&#123;&#37; for &#37;&#125;)</h2>
+<p>Les boucles <code>for</code> permettent d'itérer sur des collections de données (listes, dictionnaires, etc.) dans un template.</p>
+
+<h3>Syntaxe de base</h3>
+<pre>
+&#123;&#37; for item in collection &#37;&#125;
+    &#123;&#123; item &#125;&#125;
+&#123;&#37; endfor &#37;&#125;
+</pre>
+
+<h3>Variables spéciales dans les boucles</h3>
+<p>Django fournit des variables spéciales à l'intérieur des boucles for :</p>
+<ul>
+    <li><code>forloop.counter</code> : Compte à partir de 1</li>
+    <li><code>forloop.counter0</code> : Compte à partir de 0</li>
+    <li><code>forloop.revcounter</code> : Compte à rebours à partir du nombre total</li>
+    <li><code>forloop.first</code> : True si c'est la première itération</li>
+    <li><code>forloop.last</code> : True si c'est la dernière itération</li>
+</ul>
+
+<h3>Exemple de boucle</h3>
+<pre>
+&#123;&#37; for fruit in fruits &#37;&#125;
+    &#123;&#37; if forloop.first &#37;&#125;&lt;ul&gt;&#123;&#37; endif &#37;&#125;
+    &lt;li&gt;&#123;&#123; forloop.counter &#125;&#125; - &#123;&#123; fruit &#125;&#125;&lt;/li&gt;
+    &#123;&#37; if forloop.last &#37;&#125;&lt;/ul&gt;&#123;&#37; endif &#37;&#125;
+&#123;&#37; empty &#37;&#125;
+    &lt;p&gt;Aucun fruit disponible.&lt;/p&gt;
+&#123;&#37; endfor &#37;&#125;
+</pre>
+
+<h2>Les structures de contrôle if (&#123;&#37; if &#37;&#125;)</h2>
+<p>Les structures <code>if</code> permettent d'exécuter conditionnellement des portions de template.</p>
+
+<h3>Syntaxe de base</h3>
+<pre>
+&#123;&#37; if condition &#37;&#125;
+    Contenu si la condition est vraie
+&#123;&#37; elif autre_condition &#37;&#125;
+    Contenu si l'autre condition est vraie
+&#123;&#37; else &#37;&#125;
+    Contenu si aucune condition n'est vraie
+&#123;&#37; endif &#37;&#125;
+</pre>
+
+<h3>Opérateurs disponibles</h3>
+<p>Django supporte divers opérateurs dans les conditions :</p>
+<ul>
+    <li>Comparaison : <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+    <li>Logiques : <code>and</code>, <code>or</code>, <code>not</code></li>
+    <li>Appartenance : <code>in</code>, <code>not in</code></li>
+    <li>Tests spéciaux : <code>is None</code>, <code>is not None</code></li>
+</ul>
+
+<h3>Exemple de structure if</h3>
+<pre>
+&#123;&#37; if user.is_authenticated &#37;&#125;
+    &lt;p&gt;Bonjour, &#123;&#123; user.username &#125;&#125; !&lt;/p&gt;
+&#123;&#37; elif user_count > 0 &#37;&#125;
+    &lt;p&gt;&#123;&#123; user_count &#125;&#125; utilisateurs sont connectés.&lt;/p&gt;
+&#123;&#37; else &#37;&#125;
+    &lt;p&gt;Veuillez vous connecter.&lt;/p&gt;
+&#123;&#37; endif &#37;&#125;
+</pre>
+
+<h2>Affichage de variables passées par contexte</h2>
+<p>Le contexte est un dictionnaire Python qui contient les variables à rendre disponibles dans le template.</p>
+
+<h3>Passage de variables à un template</h3>
+<p>Dans la vue :</p>
+<pre>
+def ma_vue(request):
+    context = {
+        'titre': 'Mon Titre',
+        'utilisateur': 'John',
+        'messages': ['Message 1', 'Message 2', 'Message 3'],
+        'profil': {'nom': 'Doe', 'age': 30, 'active': True}
+    }
+    return render(request, 'mon_template.html', context)
+</pre>
+
+<h3>Affichage des variables dans le template</h3>
+<pre>
+&lt;h1&gt;&#123;&#123; titre &#125;&#125;&lt;/h1&gt;
+&lt;p&gt;Bienvenue, &#123;&#123; utilisateur &#125;&#125; !&lt;/p&gt;
+
+&lt;h2&gt;Messages :&lt;/h2&gt;
+&#123;&#37; for message in messages &#37;&#125;
+    &lt;p&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;
+&#123;&#37; endfor &#37;&#125;
+
+&lt;h2&gt;Profil :&lt;/h2&gt;
+&lt;p&gt;Nom : &#123;&#123; profil.nom &#125;&#125;&lt;/p&gt;
+&lt;p&gt;Âge : &#123;&#123; profil.age &#125;&#125;&lt;/p&gt;
+&#123;&#37; if profil.active &#37;&#125;
+    &lt;p&gt;Statut : Actif&lt;/p&gt;
+&#123;&#37; else &#37;&#125;
+    &lt;p&gt;Statut : Inactif&lt;/p&gt;
+&#123;&#37; endif &#37;&#125;
+</pre>
+
+<h3>Filtres pour modifier l'affichage des variables</h3>
+<p>Les filtres permettent de modifier l'affichage des variables :</p>
+<ul>
+    <li><code>&#123;&#123; name|lower &#125;&#125;</code> : Convertit en minuscules</li>
+    <li><code>&#123;&#123; text|truncatewords:30 &#125;&#125;</code> : Tronque à 30 mots</li>
+    <li><code>&#123;&#123; date|date:"d/m/Y" &#125;&#125;</code> : Formate une date</li>
+    <li><code>&#123;&#123; value|default:"Inconnu" &#125;&#125;</code> : Valeur par défaut si vide</li>
+    <li><code>&#123;&#123; list|length &#125;&#125;</code> : Retourne la longueur</li>
+</ul>
+
+<h2>Inclusion de templates</h2>
+<p>En plus de l'héritage, Django permet d'inclure un template dans un autre :</p>
+<pre>
+&#123;&#37; include 'nav.html' &#37;&#125;
+</pre>
+
+<p>Avec passage de variables au template inclus :</p>
+<pre>
+&#123;&#37; include 'snippet.html' with variable=value only &#37;&#125;
+</pre>
+<p>Le mot-clé <code>only</code> limite le contexte uniquement aux variables explicitement passées.</p>
+
+<h2>Conclusion</h2>
+<p>Le moteur de templates de Django offre un système puissant et flexible qui permet de :</p>
+<ul>
+    <li>Séparer clairement la présentation de la logique métier</li>
+    <li>Réutiliser des éléments de design grâce à l'héritage et l'inclusion</li>
+    <li>Manipuler facilement les données avec les boucles et conditions</li>
+    <li>Respecter le principe DRY (Don't Repeat Yourself) en évitant la duplication de code</li>
+</ul>
+<p>Cette approche structurée facilite le développement et la maintenance d'applications web complexes.</p>
+{% endblock %}
