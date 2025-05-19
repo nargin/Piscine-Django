@@ -1,0 +1,53 @@
+<!-- templates/ex03.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 03 - Tableau de dégradés</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        
+        th, td {
+            width: 80px;
+            height: 40px;
+            border: 1px solid #ccc;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tableau de dégradés de couleurs</h1>
+    <table>
+        <!-- En-tête du tableau -->
+        <tr>
+            {% for color_name in color_names %}
+                <th>{{ color_name }}</th>
+            {% endfor %}
+        </tr>
+        
+        <!-- Lignes de nuances -->
+        {% for row in rows_data %}
+            <tr>
+                <td style="background-color: {{ row.Noir }}"></td>
+                <td style="background-color: {{ row.Rouge }}"></td>
+                <td style="background-color: {{ row.Bleu }}"></td>
+                <td style="background-color: {{ row.Vert }}"></td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
